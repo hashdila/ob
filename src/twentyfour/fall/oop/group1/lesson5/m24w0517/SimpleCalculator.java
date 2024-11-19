@@ -7,6 +7,13 @@ package twentyfour.fall.oop.group1.lesson5.m24w0517;
  * Note for professor: -
  */
 
+
+
+/**Lecture feedback
+ *
+ No method overloading implemented.
+ */
+
 import java.util.Scanner;
 
 public class SimpleCalculator {
