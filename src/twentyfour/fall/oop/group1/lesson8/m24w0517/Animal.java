@@ -18,6 +18,7 @@ public class Animal {
     }
 
     public void displayInfo() {
+        System.out.println( name  + " " +"Info");
         System.out.println("Name: " + name);
         System.out.println("Age: " + age);
         System.out.println("Wild: " + (isWild ? "Yes" : "No"));
