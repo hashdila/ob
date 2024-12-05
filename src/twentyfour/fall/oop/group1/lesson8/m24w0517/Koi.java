@@ -1,9 +1,15 @@
 package twentyfour.fall.oop.group1.lesson8.m24w0517;
 
-
+/**
+ * Id: M24W0517
+ * Name: Dilan Nawarthna
+ * Assignment: KCGI/OOP
+ * Note for professor: -
+ */
 
 public class Koi extends Animal {
     private String color;
+    private String name;
 
     public Koi(String name, int age, boolean isWild, String color) {
         super(name, age, isWild);
@@ -12,7 +18,7 @@ public class Koi extends Animal {
 
     @Override
     public void makeSound() {
-        System.out.println("The Koi swims gracefully.");
+        System.out.println(  "The Koi swims gracefully.");
     }
 
     public void swim() {

@@ -1,6 +1,11 @@
 package twentyfour.fall.oop.group1.lesson8.m24w0517;
 
-
+/**
+ * Id: M24W0517
+ * Name: Dilan Nawarthna
+ * Assignment: KCGI/OOP
+ * Note for professor: -
+ */
 
 public class Animal {
     private String name;
@@ -14,7 +19,7 @@ public class Animal {
     }
 
     public void makeSound() {
-        // To be overridden by subclasses
+
     }
 
     public void displayInfo() {

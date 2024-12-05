@@ -1,5 +1,12 @@
 package twentyfour.fall.oop.group1.lesson8.m24w0517;
 
+/**
+ * Id: M24W0517
+ * Name: Dilan Nawarthna
+ * Assignment: KCGI/OOP
+ * Note for professor: -
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
