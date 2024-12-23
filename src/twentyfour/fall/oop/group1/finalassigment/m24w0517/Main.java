@@ -81,11 +81,13 @@ public class Main {
         return MAIN_ADMIN_PASSWORD.equals(inputPassword);
     }
 
+
+
     private static void mainAdminMenu(Scanner scanner, BakeryService bakeryService, Bakery kandyBakery, Bakery colomboBakery, Bakery galleBakery) {
         while (true) {
             System.out.println("\n=== Main Admin Menu ===");
             System.out.println("1. View All Branch Inventories");
-            System.out.println("2. Add/Update Branch Admin Passwords");
+            System.out.println("2. View all brances invoices");
             System.out.println("3. Return to Main Menu");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
@@ -100,16 +102,13 @@ public class Main {
                     bakeryService.displayInventory(galleBakery);
                     break;
                 case 2:
-                    System.out.print("Enter branch name (Kandy/Colombo/Galle): ");
-                    String branch = scanner.next();
-                    if (BAKERY_ADMIN_PASSWORDS.containsKey(branch)) {
-                        System.out.print("Enter new admin password for " + branch + " branch: ");
-                        String newPassword = scanner.next();
-                        BAKERY_ADMIN_PASSWORDS.put(branch, newPassword);
-                        System.out.println("Password updated successfully!");
-                    } else {
-                        System.out.println("Invalid branch name! Please try again.");
-                    }
+//
+                    System.out.println("\n--- Kandy Bakery Invoices ---");
+                    bakeryService.viewAllInvoices("Kandy Bakery");
+                    System.out.println("\n--- Colombo Bakery Invoices ---");
+                    bakeryService.viewAllInvoices("Colombo Bakery");
+                    System.out.println("\n--- Galle Bakery Invoices ---");
+                    bakeryService.viewAllInvoices("Galle Bakery");
                     break;
                 case 3:
                     return;

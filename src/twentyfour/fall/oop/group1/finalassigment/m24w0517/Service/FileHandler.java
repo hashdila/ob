@@ -83,4 +83,36 @@ public class FileHandler {
             System.out.println("Error saving order invoice: " + e.getMessage());
         }
     }
+
+
+    public void displayAllInvoices(String branchName) {
+        String branchInvoiceFolderPath = INVOICE_FOLDER + branchName + "/";
+        File branchInvoiceFolder = new File(branchInvoiceFolderPath);
+
+        if (!branchInvoiceFolder.exists()) {
+            System.out.println("No invoices found for branch: " + branchName);
+            return;
+        }
+
+        File[] invoiceFiles = branchInvoiceFolder.listFiles((dir, name) -> name.endsWith(".txt"));
+        if (invoiceFiles == null || invoiceFiles.length == 0) {
+            System.out.println("No invoices found for branch: " + branchName);
+            return;
+        }
+
+        System.out.println("Invoices for branch: " + branchName);
+        for (File invoiceFile : invoiceFiles) {
+            System.out.println("Reading file: " + invoiceFile.getName());
+            try (BufferedReader reader = new BufferedReader(new FileReader(invoiceFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+                System.out.println("--------------------------------------------------");
+            } catch (IOException e) {
+                System.out.println("Error reading invoice file: " + invoiceFile.getName() + " - " + e.getMessage());
+            }
+        }
+    }
+
 }

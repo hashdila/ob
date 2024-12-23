@@ -66,4 +66,9 @@ public class BakeryService {
         }
     }
 
+    public void viewAllInvoices(String branchName) {
+        fileHandler.displayAllInvoices(branchName);
+    }
+
+
 }
