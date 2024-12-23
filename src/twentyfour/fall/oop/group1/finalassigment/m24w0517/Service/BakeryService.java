@@ -1,79 +1,69 @@
 package twentyfour.fall.oop.group1.finalassigment.m24w0517.Service;
 
-
 import twentyfour.fall.oop.group1.finalassigment.m24w0517.model.Bakery;
 import twentyfour.fall.oop.group1.finalassigment.m24w0517.model.Inventory;
 import twentyfour.fall.oop.group1.finalassigment.m24w0517.model.Order;
 
+import java.util.List;
+import java.util.Scanner;
+
 public class BakeryService {
-    private FileHandler fileHandler = new FileHandler();
 
-    public void addItem(Bakery bakery, String name, int quantity, double price) {
-        Inventory newItem = new Inventory(name, quantity, price);
-        bakery.addInventoryItem(newItem);
-        fileHandler.saveInventoryToFile(bakery.getInventoryList());
-        System.out.println("Item added to inventory and saved to file.");
+    private FileHandler fileHandler;
+
+    public BakeryService() {
+        fileHandler = new FileHandler();
     }
 
-    public void loadInventory(Bakery bakery) {
-        bakery.getInventoryList().clear();
-        bakery.getInventoryList().addAll(fileHandler.loadInventoryFromFile());
-    }
-
-
-
-    public void placeOrder(Bakery bakery, String customerName, String itemName, int quantity) {
-        for (Inventory item : bakery.getInventoryList()) {
-            if (item.getItemName().equals(itemName) && item.getQuantity() >= quantity) {
-                item.setQuantity(item.getQuantity() - quantity);
-                bakery.addOrder(new Order(customerName, itemName, quantity));
-                System.out.println("Order placed successfully!");
-                return;
-            }
-        }
-        System.out.println("Item not available or insufficient quantity.");
+    public void addItem(Bakery bakery, String name, int quantity, double price, String branchName) {
+        List<Inventory> inventory = bakery.getInventory();
+        inventory.add(new Inventory(name, quantity, price)); // Add new item to inventory
+        fileHandler.saveInventoryToFile(inventory, branchName); // Save inventory to file
     }
 
     public void displayInventory(Bakery bakery) {
-        System.out.println("Inventory for Bakery: " + bakery.getName());
-        for (Inventory item : bakery.getInventoryList()) {
-            System.out.println(item.getItemName() + " - " + item.getQuantity() + " available $ " + item.getPrice());
+        // Display all items in the bakery's inventory
+        for (Inventory item : bakery.getInventory()) {
+            System.out.println("Item: " + item.getItemName() + ", Quantity: " + item.getQuantity() + ", Price: " + item.getPrice());
         }
     }
+
+
+
+
     public void addOrder(Bakery bakery, String customerName, String itemName, int quantity) {
-        // Find the item in inventory
-        Inventory item = bakery.getInventoryList().stream()
-                .filter(inventoryItem -> inventoryItem.getItemName().equalsIgnoreCase(itemName))
+        // Find the item in the inventory
+        Inventory item = bakery.getInventory().stream()
+                .filter(i -> i.getItemName().equals(itemName))
                 .findFirst()
                 .orElse(null);
 
         if (item != null && item.getQuantity() >= quantity) {
+            // Calculate the total price
             double totalPrice = item.getPrice() * quantity;
+            System.out.println("The total price for " + quantity + " " + itemName + "(s) is: " + totalPrice);
 
-            // Display total price to the customer
-            System.out.printf("Total Price for %d x %s: %.2f\n", quantity, itemName, totalPrice);
-
-            // Confirm the order
-            System.out.println("Do you want to confirm this order? (yes/no): ");
-            String confirmation = new java.util.Scanner(System.in).nextLine();
+            // Ask for confirmation
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Do you want to proceed with the order? (yes/no): ");
+            String confirmation = scanner.next();
 
             if (confirmation.equalsIgnoreCase("yes")) {
-                Order order = new Order(customerName, itemName, quantity);
-
-                // Deduct quantity from inventory
+                // Reduce the quantity
                 item.setQuantity(item.getQuantity() - quantity);
 
-                // Save updated inventory and invoice
-                fileHandler.saveInventoryToFile(bakery.getInventoryList());
-                fileHandler.saveOrderToFile(order,totalPrice);
+                // Create and save the order
+                Order order = new Order(customerName, itemName, quantity);
+                fileHandler.saveOrderToFile(order, totalPrice, bakery.getName()); // Save the order to file
+                fileHandler.saveInventoryToFile(bakery.getInventory(), bakery.getName()); // Save updated inventory
 
-
-                System.out.println("Order confirmed! Invoice has been saved.");
+                System.out.println("Order placed successfully! Total Price: " + totalPrice);
             } else {
                 System.out.println("Order cancelled.");
             }
         } else {
-            System.out.println("Insufficient inventory for item: " + itemName);
+            System.out.println("Item not available or insufficient quantity.");
         }
     }
+
 }

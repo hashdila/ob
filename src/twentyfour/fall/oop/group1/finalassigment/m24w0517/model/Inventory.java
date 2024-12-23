@@ -1,7 +1,5 @@
 package twentyfour.fall.oop.group1.finalassigment.m24w0517.model;
 
-
-
 public class Inventory {
     private String itemName;
     private int quantity;
@@ -29,5 +27,9 @@ public class Inventory {
     public double getPrice() {
         return price;
     }
-}
 
+    // Optional method to increase stock
+    public void increaseQuantity(int additionalQuantity) {
+        this.quantity += additionalQuantity;
+    }
+}
