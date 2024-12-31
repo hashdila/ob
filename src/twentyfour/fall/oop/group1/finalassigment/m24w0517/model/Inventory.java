@@ -32,4 +32,10 @@ public class Inventory {
     public void increaseQuantity(int additionalQuantity) {
         this.quantity += additionalQuantity;
     }
+
+    public void setPrice(double price) {
+        this.price = price; // Correctly updates the price field
+    }
+
+
 }

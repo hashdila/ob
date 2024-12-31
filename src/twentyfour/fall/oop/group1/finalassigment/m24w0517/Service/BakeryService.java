@@ -66,6 +66,39 @@ public class BakeryService {
         }
     }
 
+    public void updateItem(Bakery bakery, String itemName, int newQuantity, double newPrice, String branchName) {
+        List<Inventory> inventory = bakery.getInventory();
+
+        // Find the item to update
+        Inventory itemToUpdate = inventory.stream()
+                .filter(i -> i.getItemName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
+
+        if (itemToUpdate != null) {
+            itemToUpdate.setQuantity(newQuantity);
+            itemToUpdate.setPrice(newPrice);
+            System.out.println("Item updated successfully!");
+            fileHandler.saveInventoryToFile(inventory, branchName); // Save updated inventory to file
+        } else {
+            System.out.println("Item not found in the inventory.");
+        }
+    }
+
+    public void deleteItem(Bakery bakery, String itemName, String branchName) {
+        List<Inventory> inventory = bakery.getInventory();
+
+        // Remove the item from the inventory
+        boolean removed = inventory.removeIf(item -> item.getItemName().equalsIgnoreCase(itemName));
+
+        if (removed) {
+            System.out.println("Item deleted successfully!");
+            fileHandler.saveInventoryToFile(inventory, branchName); // Save updated inventory to file
+        } else {
+            System.out.println("Item not found in the inventory.");
+        }
+    }
+
     public void viewAllInvoices(String branchName) {
         fileHandler.displayAllInvoices(branchName);
     }

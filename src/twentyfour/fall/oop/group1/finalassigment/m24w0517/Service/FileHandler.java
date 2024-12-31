@@ -26,6 +26,23 @@ public class FileHandler {
         }
     }
 
+//    public void saveInventoryToFile(List<Inventory> inventoryList, String branchName) {
+//        String branchFolderPath = INVENTORY_FOLDER + branchName + "/";
+//        File branchFolder = new File(branchFolderPath);
+//        if (!branchFolder.exists()) {
+//            branchFolder.mkdirs();
+//        }
+//        String branchFilePath = branchFolderPath + "inventory.txt";
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(branchFilePath))) {
+//            for (Inventory item : inventoryList) {
+//                writer.write(item.getItemName() + "," + item.getQuantity() + "," + item.getPrice());
+//                writer.newLine();
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Error saving inventory to file: " + e.getMessage());
+//        }
+//    }
+
     public void saveInventoryToFile(List<Inventory> inventoryList, String branchName) {
         String branchFolderPath = INVENTORY_FOLDER + branchName + "/";
         File branchFolder = new File(branchFolderPath);
@@ -33,15 +50,21 @@ public class FileHandler {
             branchFolder.mkdirs();
         }
         String branchFilePath = branchFolderPath + "inventory.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(branchFilePath))) {
+        System.out.println("Saving inventory to path: " + branchFilePath);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(branchFilePath, false))) {
             for (Inventory item : inventoryList) {
-                writer.write(item.getItemName() + "," + item.getQuantity() + "," + item.getPrice());
+                String line = item.getItemName() + "," + item.getQuantity() + "," + item.getPrice();
+                writer.write(line);
                 writer.newLine();
+                System.out.println("Writing line: " + line); // Debugging each line
             }
+            System.out.println("Inventory successfully saved.");
         } catch (IOException e) {
             System.out.println("Error saving inventory to file: " + e.getMessage());
         }
     }
+
 
     public List<Inventory> loadInventoryFromFile(String branchName) {
         List<Inventory> inventoryList = new ArrayList<>();

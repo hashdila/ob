@@ -157,8 +157,10 @@ public class Main {
         while (true) {
             System.out.println("\n=== Admin Menu for " + bakery.getName() + " ===");
             System.out.println("1. Add Item to Inventory");
-            System.out.println("2. Display Inventory");
-            System.out.println("3. Return to Branch Menu");
+            System.out.println("2. Update Item in Inventory");
+            System.out.println("3. Delete Item from Inventory");
+            System.out.println("4. Display Inventory");
+            System.out.println("5. Return to Branch Menu");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
 
@@ -170,18 +172,33 @@ public class Main {
                     int quantity = scanner.nextInt();
                     System.out.print("Enter price: ");
                     double price = scanner.nextDouble();
-                    bakeryService.addItem(bakery, name, quantity, price, branchName); // Pass branchName here
+                    bakeryService.addItem(bakery, name, quantity, price, branchName);
                     break;
                 case 2:
-                    bakeryService.displayInventory(bakery);
+                    System.out.print("Enter item name to update: ");
+                    String updateName = scanner.next();
+                    System.out.print("Enter new quantity: ");
+                    int newQuantity = scanner.nextInt();
+                    System.out.print("Enter new price: ");
+                    double newPrice = scanner.nextDouble();
+                    bakeryService.updateItem(bakery, updateName, newQuantity, newPrice, branchName);
                     break;
                 case 3:
+                    System.out.print("Enter item name to delete: ");
+                    String deleteName = scanner.next();
+                    bakeryService.deleteItem(bakery, deleteName, branchName);
+                    break;
+                case 4:
+                    bakeryService.displayInventory(bakery);
+                    break;
+                case 5:
                     return;
                 default:
                     System.out.println("Invalid option! Please try again.");
             }
         }
     }
+
 
 
     private static void customerMenu(Scanner scanner, BakeryService bakeryService, Bakery bakery) {
